@@ -30,9 +30,9 @@
 Open .env file on your favorite code editor, and copy paste this code below :
 
 ```
-DB_HOST=localhost // Database host
+REACT_APP_BACKEND_URL = http://localhost:3003/backend3/api/v1/   // Database host
 ```
 
 ## License - untuk project individu
 
-© [Bagus Tri Harjanto](https://github.com/rifqiziyad/)
+© [Rifqi Ziyad Imtinan](https://github.com/rifqiziyad/)
