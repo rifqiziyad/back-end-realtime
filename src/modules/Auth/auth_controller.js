@@ -63,9 +63,9 @@ module.exports = {
       const checkEmail = await authModel.checkDataUser({
         user_email: userEmail
       })
-      console.log(checkEmail[0].user_verification)
+
       // cek email
-      if (checkEmail.length > 0 && checkEmail[0].user_verification !== 0) {
+      if (checkEmail.length > 0 && checkEmail[0].user_verification === 1) {
         const checkPassword = bcrypt.compareSync(
           userPassword,
           checkEmail[0].user_password
