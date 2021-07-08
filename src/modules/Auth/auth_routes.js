@@ -4,6 +4,6 @@ const { register, login, userVerification } = require('./auth_controller')
 
 Route.post('/register', register)
 Route.post('/login', login)
-Route.post('/verif/:id', userVerification)
+Route.get('/verif/:id', userVerification)
 
 module.exports = Route

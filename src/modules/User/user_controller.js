@@ -28,34 +28,20 @@ module.exports = {
   updateUserData: async (req, res) => {
     try {
       const { id } = req.params
-      const { userName, userEmail, userPhone, userBio } = req.body
-      const setData = {
-        user_name: userName,
-        user_email: userEmail,
-        user_phone: userPhone,
-        user_bio: userBio,
-        user_image: req.file ? req.file.filename : ''
-      }
+      const { userName, userPhone, userBio, username } = req.body
       const checkDataById = await userModel.getDataById(id)
+      const setData = {
+        username: username !== undefined ? username : checkDataById[0].username,
+        user_name:
+          userName !== undefined ? userName : checkDataById[0].user_name,
+        user_phone:
+          userPhone !== undefined ? userPhone : checkDataById[0].user_phone,
+        user_bio: userBio !== undefined ? userBio : checkDataById[0].user_bio,
+        user_updated_at: new Date(Date.now())
+      }
+
       const result = await userModel.updateData(setData, id)
       if (checkDataById.length > 0) {
-        console.log(result)
-        fs.stat(
-          `src/uploads/${checkDataById[0].user_image}`,
-          function (err, stats) {
-            console.log(stats) // here we got all information of file in stats variable
-            if (err) {
-              return console.error(err)
-            }
-            fs.unlink(
-              `src/uploads/${checkDataById[0].user_image}`,
-              function (err) {
-                if (err) return console.log(err)
-                console.log('file deleted successfully')
-              }
-            )
-          }
-        )
         return helper.response(
           res,
           200,
@@ -74,6 +60,31 @@ module.exports = {
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
+  updataImage: async (req, res) => {
+    try {
+      const { id } = req.params
+      const checkDataById = await userModel.getDataById(id)
+      const setData = {
+        user_image: req.file ? req.file.filename : '',
+        user_updated_at: new Date(Date.now())
+      }
+
+      fs.unlink(`src/uploads/${checkDataById[0].user_image}`, (error) => {
+        error ? console.log('Image not found') : console.log('Image deleted')
+      })
+
+      const result = await userModel.updateData(setData, id)
+      return helper.response(
+        res,
+        200,
+        `Succes Update Data User By Id: ${id}`,
+        result
+      )
+    } catch (error) {
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
+
   updateUserPasswrod: async (req, res) => {
     try {
       const { id } = req.params

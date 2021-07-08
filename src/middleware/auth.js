@@ -19,7 +19,6 @@ module.exports = {
           next()
         }
       })
-      console.log(token)
     } else {
       return helper.response(res, 403, 'please login first')
     }

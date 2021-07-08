@@ -8,12 +8,17 @@ require('dotenv').config()
 module.exports = {
   register: async (req, res) => {
     try {
-      const { userName, userEmail, userPassword } = req.body
+      const { userName, userEmail, userPassword, userPhone } = req.body
       const salt = bcrypt.genSaltSync(10)
       const encryptPassword = bcrypt.hashSync(userPassword, salt)
       const setData = {
+        user_id:
+          Math.random().toString(36).substring(2) +
+          new Date().getTime().toString(36),
+        username: 'user' + parseInt(Math.random() * 1000000000000),
         user_name: userName,
         user_email: userEmail,
+        user_phone: userPhone,
         user_password: encryptPassword
       }
       const getDataCondition = await authModel.checkDataUser({
@@ -37,9 +42,7 @@ module.exports = {
           from: '"Telegram App" <rifqiziyad4@gmail.com>', // sender address
           to: userEmail, // list of receivers
           subject: 'Telegram App - Activation Email', // Subject line
-          html: `<b>Click Here to activate </b><form action='http://localhost:3003/backend3/api/v1/auth/verif/${result.id}' method="post">
-          <button type="submit" name="your_name" value="your_value">Go</button>
-      </form>` // html body
+          html: `<b>Click Here to activate </b><a href='http://localhost:3003/backend3/api/v1/auth/verif/${result.id}'>Click !</a>` // html body
         }
         await transporter.sendMail(mailOptions, function (error, info) {
           if (error) {
@@ -75,7 +78,7 @@ module.exports = {
           const payload = checkEmail[0]
           delete payload.user_password
           const token = jwt.sign({ ...payload }, 'RAHASIA', {
-            expiresIn: 1000
+            expiresIn: '1d'
           })
           const result = { ...payload, token }
           return helper.response(res, 200, 'Succes Login', result)
@@ -100,6 +103,7 @@ module.exports = {
       const setData = {
         user_verification: 1
       }
+
       const getUserId = await authModel.checkDataUser(id)
       await authModel.verifiedUser(setData, id)
       if (getUserId.length > 0) {
@@ -108,6 +112,7 @@ module.exports = {
         return helper.response(res, 404, `Data By Id ${id} Not Found`, null)
       }
     } catch (error) {
+      console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
     }
   }
