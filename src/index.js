@@ -93,7 +93,7 @@ io.on('connection', (socket) => {
 
   socket.on('notif-message', (data) => {
     console.log(data)
-    socket.broadcast.to(data.receiverId).emit('notification', data)
+    socket.broadcast.to(parseInt(data.receiverId)).emit('notification', data)
   })
 
   socket.on('typing-message', (data) => {
