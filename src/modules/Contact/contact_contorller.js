@@ -38,7 +38,9 @@ module.exports = {
   },
   getAllContact: async (req, res) => {
     try {
-      const result = await contactModel.getAllData()
+      let { id, search } = req.query
+      if (search === undefined) search = ''
+      const result = await contactModel.getAllData(id, search)
       return helper.response(res, 200, 'Succes Get All Data Contact', result)
     } catch (error) {
       return helper.response(res, 400, 'Bad Request', error)

@@ -28,10 +28,10 @@ module.exports = {
       )
     })
   },
-  getAllData: () => {
+  getAllData: (id, search) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        'SELECT * FROM user JOIN contact ON user.user_id = contact.user_id',
+        `SELECT * FROM user WHERE user_id != ${id} AND user_name LIKE '%${search}%'`,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error))
         }
