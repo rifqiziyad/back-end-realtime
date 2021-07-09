@@ -44,4 +44,4 @@ SMTP_PASSWORD=YOUR_EMAIL_PASSWORD / Your email password
 
 ## License
 
-© [Rifqi Ziyad Imtinan](https://https://github.com/rifqiziyad)
+© [Rifqi Ziyad Imtinan](https://github.com/rifqiziyad)
