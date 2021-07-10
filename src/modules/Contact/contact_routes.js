@@ -3,11 +3,13 @@ const Route = express.Router()
 const {
   createContact,
   getContactById,
-  getAllContact
+  getAllContactForInviteFriend,
+  getAllContactForContact
 } = require('./contact_contorller')
 
 Route.post('/', createContact)
-Route.get('/', getAllContact)
+Route.get('/', getAllContactForInviteFriend)
+Route.get('/all-contact', getAllContactForContact)
 Route.get('/:id', getContactById)
 
 module.exports = Route

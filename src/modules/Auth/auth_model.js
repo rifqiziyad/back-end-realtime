@@ -4,7 +4,6 @@ module.exports = {
   register: (data) => {
     return new Promise((resolve, reject) => {
       connection.query('INSERT INTO user SET ?', data, (error, result) => {
-        console.log(error)
         if (!error) {
           const newData = {
             id: result.insertId,
@@ -20,7 +19,6 @@ module.exports = {
   checkDataUser: (data) => {
     return new Promise((resolve, reject) => {
       connection.query('SELECT * FROM user WHERE ?', data, (error, result) => {
-        console.log(error)
         !error ? resolve(result) : reject(new Error(error))
       })
     })
@@ -31,7 +29,6 @@ module.exports = {
         'UPDATE user SET ? WHERE user_id = ?',
         [setData, id],
         (error, result) => {
-          console.log(error)
           if (!error) {
             const newResult = {
               id: id,

@@ -19,10 +19,9 @@ module.exports = {
   getDataById: (id) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        'SELECT * FROM contact JOIN user ON contact.user_id = user.user_id WHERE contact.friend_id = ?',
+        'SELECT * FROM user WHERE user_email = ?',
         id,
         (error, result) => {
-          console.log(error)
           !error ? resolve(result) : reject(new Error(error))
         }
       )
@@ -31,7 +30,17 @@ module.exports = {
   getAllData: (id, search) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `SELECT * FROM user WHERE user_id != ${id} AND user_name LIKE '%${search}%'`,
+        `SELECT user.user_id, user.user_name, user.user_image, contact.user_id AS contact_user_id, friend_id FROM user LEFT JOIN contact ON user.user_id = contact.user_id WHERE user.user_id != ${id} AND user_name LIKE '%${search}%' GROUP BY user.user_id`,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error))
+        }
+      )
+    })
+  },
+  getAllContact: (id, search) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM contact JOIN user ON contact.friend_id = user.user_id WHERE contact.user_id = ${id} AND user_name LIKE '%${search}%'`,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error))
         }

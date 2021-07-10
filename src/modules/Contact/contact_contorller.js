@@ -36,11 +36,23 @@ module.exports = {
       return helper.response(res, 400, 'Bad Request', error)
     }
   },
-  getAllContact: async (req, res) => {
+  getAllContactForInviteFriend: async (req, res) => {
     try {
       let { id, search } = req.query
       if (search === undefined) search = ''
       const result = await contactModel.getAllData(id, search)
+
+      return helper.response(res, 200, 'Succes Get All Data Contact', result)
+    } catch (error) {
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
+  getAllContactForContact: async (req, res) => {
+    try {
+      let { id, search } = req.query
+      if (search === undefined) search = ''
+      const result = await contactModel.getAllContact(id, search)
+
       return helper.response(res, 200, 'Succes Get All Data Contact', result)
     } catch (error) {
       return helper.response(res, 400, 'Bad Request', error)
