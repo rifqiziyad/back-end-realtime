@@ -106,7 +106,6 @@ module.exports = {
       }
 
       const getUserId = await authModel.checkDataUser(id)
-      console.log(getUserId)
       await authModel.verifiedUser(setData, id)
       if (getUserId.length > 0) {
         return helper.response(res, 200, 'Succes User Verification')
