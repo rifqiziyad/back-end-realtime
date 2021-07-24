@@ -42,7 +42,7 @@ module.exports = {
           from: '"Telegram App" <rifqiziyad4@gmail.com>', // sender address
           to: userEmail, // list of receivers
           subject: 'Telegram App - Activation Email', // Subject line
-          html: `<b>Click Here to activate </b><a href='http://localhost:3003/backend3/api/v1/auth/verif/${result.id}'>Click !</a>` // html body
+          html: `<b>Click Here to activate </b><a href='https://agile-brushlands-60708.herokuapp.com/backend3/api/v1/auth/verif/${result.id}'>Click !</a>` // html body
         }
         await transporter.sendMail(mailOptions, function (error, info) {
           if (error) {
