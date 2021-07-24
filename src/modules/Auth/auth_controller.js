@@ -42,10 +42,11 @@ module.exports = {
           from: '"Telegram App" <rifqiziyad4@gmail.com>', // sender address
           to: userEmail, // list of receivers
           subject: 'Telegram App - Activation Email', // Subject line
-          html: `<b>Click Here to activate </b><a href='https://agile-brushlands-60708.herokuapp.com/backend3/api/v1/auth/verif/${result.id}'>Click !</a>` // html body
+          html: `<b>Click Here to activate </b><a href='https://agile-brushlands-60708.herokuapp.com/backend3/api/v1/auth/verif/?id=${result.user_id}'>Click !</a>` // html body
         }
         await transporter.sendMail(mailOptions, function (error, info) {
           if (error) {
+            console.log(error)
             return helper.response(res, 408, 'Email not send !')
           } else {
             console.log('Email sent:' + info.response)
@@ -99,12 +100,13 @@ module.exports = {
   },
   userVerification: async (req, res) => {
     try {
-      const { id } = req.params
+      const { id } = req.query
       const setData = {
         user_verification: 1
       }
 
       const getUserId = await authModel.checkDataUser(id)
+      console.log(getUserId)
       await authModel.verifiedUser(setData, id)
       if (getUserId.length > 0) {
         return helper.response(res, 200, 'Succes User Verification')
