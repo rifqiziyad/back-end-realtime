@@ -32,7 +32,11 @@ module.exports = {
       let { search } = req.query
       if (search === undefined) search = ''
       const result = await roomModel.getDataRoomChat(id, search)
-      return helper.response(res, 200, 'Succes Get Data Room Chat', result)
+      if (result.length > 0) {
+        return helper.response(res, 200, 'Succes Get Data Room Chat', result)
+      } else {
+        return helper.response(res, 200, 'Tidak Ada Room Chat', result)
+      }
     } catch (error) {
       return helper.response(res, 400, 'Bad Request', error)
     }
