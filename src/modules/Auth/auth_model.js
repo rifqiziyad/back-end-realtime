@@ -15,14 +15,11 @@ module.exports = {
       })
     })
   },
-  checkDataUser: (id) => {
+  checkDataUser: (data) => {
     return new Promise((resolve, reject) => {
-      connection.query(
-        `SELECT * FROM user WHERE user_id = '${id}'`,
-        (error, result) => {
-          !error ? resolve(result) : reject(new Error(error))
-        }
-      )
+      connection.query('SELECT * FROM user WHERE ?', data, (error, result) => {
+        !error ? resolve(result) : reject(new Error(error))
+      })
     })
   },
   verifiedUser: (setData, id) => {
